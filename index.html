@@ -3,126 +3,316 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>Dipankar Saha - Cybersecurity Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            --primary: #2A9D8F;
+            --secondary: #264653;
+            --accent: #E9C46A;
+            --dark: #2A2A2A;
+            --light: #F4F4F4;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--light);
+            color: var(--dark);
+            scroll-behavior: smooth;
         }
 
         header {
-            background-color: #212121;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
             color: white;
             text-align: center;
-            padding: 20px 0;
+            padding: 6rem 2rem;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            animation: fadeIn 1s ease-in;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2em;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         nav {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
+            background: var(--dark);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
         }
 
         nav a {
             color: white;
-            margin: 0 15px;
             text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
         }
 
         nav a:hover {
-            text-decoration: underline;
+            background: var(--primary);
+            transform: translateY(-2px);
         }
 
         section {
-            padding: 20px;
-            margin: 20px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        section h2 {
-            color: #0f0f0f;
-            margin-bottom: 10px;
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .skill-item {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: scale(1.05);
+        }
+
+        .project-card {
+            border-left: 4px solid var(--primary);
+            margin: 1.5rem 0;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateX(10px);
         }
 
         footer {
-            background-color: #333;
+            background: var(--secondary);
             color: white;
             text-align: center;
-            padding: 10px 0;
-            margin-top: 20px;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            header {
+                padding: 4rem 1rem;
+            }
+
+            section {
+                padding: 2rem 1rem;
+            }
         }
     </style>
 </head>
 <body>
-
     <header>
-        <h1>Dipankar Saha</h1>
-        <p>Aspiring Cybersecurity Professional</p>
+        <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Dipankar Saha</h1>
+        <p style="font-size: 1.2rem;">Aspiring Cybersecurity Professional</p>
     </header>
 
     <nav>
-        <a href="#about">About</a>
-        <a href="#education">Education</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
     </nav>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>Hi, I am Dipankar Saha, a postgraduate student currently pursuing an MSc in IT Cybersecurity. As someone deeply interested in the field of information security, I am eager to learn how to protect systems and data from ever-evolving cyber threats. My academic journey focuses on building a strong foundation in areas such as network security, cryptography, and ethical hacking. Though I’m at the beginning of my career, I am enthusiastic about exploring new technologies, developing problem-solving skills, and contributing to a safer digital world. I'm always excited to learn, grow, and tackle real-world cybersecurity challenges. When I’m not studying, you’ll often find me "exploring tech blogs," "experimenting with new software tools," "playing football," or "participating in coding challenges".</p>
+    <section id="about" class="card">
+        <h2 style="color: var(--primary); margin-bottom: 1.5rem;">About Me</h2>
+        <p>Hey there! I’m a Master’s student in Information Technology, specializing in Cybersecurity—aka, the digital world’s equivalent of a superhero (but with fewer capes and more coffee).
+            <br>
+            <br>
+
+            I have a knack for system administration, network security, cloud computing, and web technologies. If there’s a security loophole, I’ll find it. If there’s a system issue, I’ll fix it. And if there’s free pizza at a tech conference, you bet I’ll be there.
+            <br>
+            <br>
+            
+            Cyber threats never sleep, but luckily, neither does my passion for protecting data and securing systems. I love breaking things—ethically, of course—just to put them back together in a stronger, safer way.
+            <br>
+            <br>
+            
+            I’m always on the lookout for exciting projects, innovative challenges, and like-minded tech enthusiasts who want to make the digital world a safer place. Let’s connect—just don’t send me weak passwords. (Seriously, "password123" is not okay.) 😁 </p>
     </section>
 
     <section id="education">
-        <h2>Education</h2>
-        <p><strong>Master of Science in Information Technology (Cyber Security)</strong><br>Current Enrolment<br>Maulana Abul Kalam Azad University of Technology, 2024-2026</p>
-        <p><strong>Bachelor of Science (Honours) in Geography</strong><br>Netaji Subhas Open University, 2020–2024</p>
-        <p><strong>Hardware and Network Engineering + Cloud V2</strong><br>Jetking Bhawanipore, 2018–2019</p>
-        <p><strong>West Bengal Council of Higher Secondary Education (W.B.C.H.S.E)</strong><br>Kalyangarh Vidyamandir, 2018</p>
-        <p><strong>West Bengal Board of Secondary Education (W.B.B.S.E)</strong><br>Prafullanagar Vidyamandir, 2016</p>
+        <h2 style="color: var(--secondary); margin-bottom: 2rem;">Education</h2>
+        <div class="card">
+            <h3>Master of Science in IT (Cyber Security)</h3>
+            <p>Maulana Abul Kalam Azad University of Technology<br>2024-2026</p>
+        </div>
+        
     </section>
 
     <section id="skills">
-        <h2>Skills</h2>
-        <ul>
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>JavaScript</li>
-            <li>Java</li>
-            <li>C</li>
-            <li>Python</li>
-        </ul>
+        <h2 style="color: var(--primary); margin-bottom: 2rem;">Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-item">System Administration</div>
+            <div class="skill-item">Network Security</div>
+            <div class="skill-item">Cloud Technologies</div>
+            <div class="skill-item">Incident Response</div>
+            <div class="skill-item">Risk Management</div>
+            <div class="skill-item">Device Configuration</div>
+            <div class="skill-item">Troubleshooting</div>
+            <div class="skill-item">Firewalls</div>
+            <div class="skill-item">IP Addressing</div>
+            <div class="skill-item">Wireless Networks</div>
+        </div>
+        <br>
+        <br>
+
+        <h2 style="color: var(--primary); margin-bottom: 2rem;">Programming And Scripting</h2>
+        <div class="skills-grid">
+            <div class="skill-item">HTML</div>
+            <div class="skill-item">CSS</div>
+            <div class="skill-item">Java</div>
+            <div class="skill-item">C</div>
+            <div class="skill-item">Javascript</div>
+            <div class="skill-item">Python</div>
+        </div>
+        <br>
+        <br>
+
+        <h2 style="color: var(--primary); margin-bottom: 2rem;">Soft Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-item">Quick Learner</div>
+            <div class="skill-item">Problem Solving</div>
+            <div class="skill-item">Time Management</div>
+            <div class="skill-item">Excellent Communication</div>
+            <div class="skill-item">Teamwork</div>
+        </div>
     </section>
 
     <section id="projects">
-        <h2>Projects</h2>
-        <p><strong>Portfolio Website</strong> - A simple portfolio website created with HTML and CSS.<br>Skills: HTML, CSS.</p>
-        <p><strong>Workplace Network Setup</strong> - Designed and configured a workplace network with multiple devices, including PCs, laptops, smartphones, printers, servers, VoIP phones, IP cameras, networked storage devices (NAS), Wi-Fi access points, smart TVs, and smart devices (such as smart thermostats, security systems, and wireless door locks). Ensured seamless connectivity across devices, optimized network performance, and implemented robust security measures to safeguard sensitive data. Configured the network for scalability, efficient traffic management, and remote access for employees. Troubleshot connectivity issues and optimized bandwidth allocation for all connected devices.<br>Skills: Networking, routers, switches, network security, device configuration, IP addressing, firewall setup, VLANs (Virtual Local Area Networks), Quality of Service (QoS) for bandwidth management, wireless networking, system monitoring, and troubleshooting.</p>
-        <p><strong> End-to-end Product Launch and Business Development with Prompt Engineering</strong> - Led end-to-end development of a product, from ideation to launch using prompt engineering. Spearheaded product selection, branding, and prototyping, culminating in a fully functional e-commerce landing page.Drove marketing, investor pitching, and sentiment analysis to optimize outreach and financial planning, resulting in a comprehensive go-to-market strategy.</p>
+        <h2 style="color: var(--secondary); margin-bottom: 2rem;">Projects</h2>
+        <div class="card project-card">
+            <h3>Portfolio Website</h3>
+            <p>Designed and developed a responsive portfolio to showcase personal projects and web development 
+                skills with a clean, user-friendly UI</p>
+            <div class="skills-grid" style="margin-top: 1rem;">
+                <div class="skill-item" style="background: var(--secondary);">HTML5</div>
+                <div class="skill-item" style="background: var(--secondary);">CSS3</div>
+            </div>
+        </div>
+
+        <div class="card project-card">
+            <h3>Top 10 Cultures and Heritages of India</h3>
+            <p> Created an interactive website highlighting India’s rich cultures and heritage, 
+                optimizing layout for an engaging user experience.</p>
+            <div class="skills-grid" style="margin-top: 1rem;">
+                <div class="skill-item" style="background: var(--secondary);">HTML5</div>
+                <div class="skill-item" style="background: var(--secondary);">CSS3</div>
+            </div>
+        </div>
+
+        <div class="card project-card">
+            <h3>Petrix E-commerce Landing Page</h3>
+            <p>Developed a functional e-commerce landing page for the Petrix robotic pet product, 
+                focusing on branding, user engagement, and UI/UX design.</p>
+            <div class="skills-grid" style="margin-top: 1rem;">
+                <div class="skill-item" style="background: var(--secondary);">HTML5</div>
+                <div class="skill-item" style="background: var(--secondary);">CSS3</div>
+                <div class="skill-item" style="background: var(--secondary);">Javascript</div>
+            </div>
+        </div>
+        
+        <div class="card project-card">
+            <h3>Home-Lab & Workplace Network Setup | Technologies: Security, Networking, Device Configuration</h3>
+            <p>• Designed and implemented a secure workplace network, configuring routers, switches, firewalls, VLANs, and QoS for optimal 
+                performance and security.<br>
+                 • Applied IP addressing, wireless networks, and troubleshooting to enhance connectivity and reliability and Currently Building 
+                and configuring a personal cybersecurity home lab to enhance practical skills in network and system security.</p>
+            <div class="skills-grid" style="margin-top: 1rem;">
+                <div class="skill-item" style="background: var(--secondary);">Networking</div>
+                <div class="skill-item" style="background: var(--secondary);">Cybersecurity</div>
+                <div class="skill-item" style="background: var(--secondary);">System Admin</div>
+            </div>
+        </div>
     </section>
 
     <section id="contact">
-        <h2>Contact</h2>
-        <p>Email: dsaha0427@gmail.com</p>
-        <p>Phone: 8918726199</p>
-        <p>LinkedIn: <a href="https://www.linkedin.com/in/dipankarsaha2001/" target="_blank">https://www.linkedin.com/in/dipankarsaha2001/</a></p>
+        <h2 style="color: var(--primary); margin-bottom: 2rem;">Contact Me</h2>
+        <div class="contact-info">
+            <div class="contact-item">
+                <i class="fas fa-envelope fa-lg"></i>
+                <a href="mailto:dsaha0427@gmail.com">dsaha0427@gmail.com</a>
+            </div>
+            <div class="contact-item">
+                <i class="fab fa-linkedin fa-lg"></i>
+                <a href="https://linkedin.com/in/dipankarsaha2001" target="_blank">LinkedIn Profile</a>
+            </div>
+            <div class="contact-item">
+                <i class="fab fa-github fa-lg"></i>
 
+                <a href="https://github.com/ezFaith" target="_blank">Github</a>
+            </div>
+        </div>
     </section>
 
     <footer>
         <p>&copy; 2024 Dipankar Saha. All rights reserved.</p>
+        <div style="margin-top: 1rem;">
+            <a href="#about" style="color: var(--accent); text-decoration: none;">Back to Top ↑</a>
+        </div>
     </footer>
-
 </body>
 </html>
