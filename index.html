@@ -3,122 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dipankar Saha - Cybersecurity Portfolio</title>
+    <title>Dipankar Saha - Cybersecurity Professional</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
+        /* CSS Variables for Dark and Light Mode */
         :root {
-            --primary: #2A9D8F;
-            --secondary: #264653;
-            --accent: #E9C46A;
-            --dark: #2A2A2A;
-            --light: #F4F4F4;
+            --background: #000000;
+            --surface: rgba(25, 25, 25, 0.5);
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+            --accent: #00D5FF;
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        body.light-mode {
+            --background: #FFFFFF;
+            --surface: rgba(255, 255, 255, 0.5);
+            --text-primary: #1D1D1F;
+            --text-secondary: #6E6E73;
+            --accent: #0071E3;
+            --card-border: rgba(0, 0, 0, 0.1);
         }
 
+        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            background-color: var(--light);
-            color: var(--dark);
+        html {
             scroll-behavior: smooth;
         }
 
-        header {
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            color: white;
-            text-align: center;
-            padding: 6rem 2rem;
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
-            animation: fadeIn 1s ease-in;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        nav {
-            background: var(--dark);
-            padding: 1rem;
-            position: sticky;
+        /* Two Separate Canvas Backgrounds for different modes */
+        #dark-mode-canvas, #light-mode-canvas {
+            position: fixed;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0;
+            transition: opacity 1s ease;
         }
 
-        nav ul {
+        body.dark-mode #dark-mode-canvas {
+            opacity: 1;
+        }
+
+        body.light-mode #light-mode-canvas {
+            opacity: 1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%);
+            z-index: -1;
+            transition: background 0.5s ease;
+        }
+
+        body.light-mode .hero::before {
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.8) 100%);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 600;
+            letter-spacing: -0.05em;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s 0.2s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 1.2rem 0;
+            transition: background 0.5s ease, backdrop-filter 0.5s ease, border-bottom 0.5s ease;
+        }
+        
+        .navbar-content {
             display: flex;
             justify-content: center;
-            gap: 2rem;
+            align-items: center;
+        }
+
+        .navbar ul {
+            display: flex;
             list-style: none;
+            gap: 2.5rem;
         }
 
-        nav a {
-            color: white;
+        .navbar a {
+            color: var(--text-secondary);
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
         }
 
-        nav a:hover {
-            background: var(--primary);
+        .navbar a:hover,
+        .navbar a.active {
+            color: var(--text-primary);
             transform: translateY(-2px);
         }
 
+        .mode-toggle {
+            cursor: pointer;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+            position: absolute;
+            right: 2rem;
+        }
+
+        .mode-toggle:hover {
+            color: var(--text-primary);
+        }
+        
+        /* Sections & Headings */
         section {
-            padding: 4rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            padding: 8rem 0;
+            position: relative;
+            z-index: 1;
         }
 
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 2rem 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .skill-item {
-            background: var(--primary);
-            color: white;
-            padding: 1rem;
-            border-radius: 5px;
+        .section-heading {
+            font-size: clamp(2.5rem, 5vw, 3rem);
+            font-weight: 600;
             text-align: center;
-            transition: transform 0.3s ease;
+            margin-bottom: 5rem;
+            color: var(--text-primary);
+        }
+        
+        /* Cards & Components */
+        .card {
+            background-color: transparent;
+            border-radius: 15px;
+            padding: 0;
+            margin-bottom: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            border: 1px solid var(--card-border);
+            z-index: -1;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .skill-item:hover {
-            transform: scale(1.05);
+        .card:hover::before {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent);
         }
 
-        .project-card {
-            border-left: 4px solid var(--primary);
-            margin: 1.5rem 0;
+        .card-content {
+            padding: 3rem;
+            z-index: 1;
+            position: relative;
         }
 
-        .contact-info {
+        /* About Section */
+        #about .about-content {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            text-align: justify;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+        }
+
+        /* Education & Contact Items */
+        .info-item {
             display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .info-item h3 {
+            font-size: 1.6rem;
+            color: var(--text-primary);
+        }
+
+        .info-item i {
+            font-size: 2rem;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+        
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
             margin-top: 2rem;
         }
 
@@ -126,292 +273,578 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 1rem;
-            background: white;
-            border-radius: 8px;
-            transition: transform 0.3s ease;
+            background-color: var(--surface);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
+        
         .contact-item:hover {
-            transform: translateX(10px);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        
+        .contact-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item:hover i, .contact-item:hover a {
+            color: var(--text-primary);
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .skill-item {
+            background-color: var(--surface);
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            white-space: nowrap;
+            transition: all 0.3s ease, background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+            border: 1px solid var(--card-border);
+        }
+        
+        .skill-item:hover {
+            transform: scale(1.05);
+            background-color: var(--text-primary);
+            color: var(--background);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Projects */
+        .project-card .card-content {
+            border-left: 3px solid var(--accent);
+            border-radius: 10px;
+        }
+        
+        .project-card h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .project-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .project-links a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .project-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .project-skills .skill-item {
+            background: var(--surface);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .project-skills .skill-item:hover {
+            background: var(--text-primary);
+            color: var(--background);
+        }
+
+        /* Footer */
         footer {
-            background: var(--secondary);
-            color: white;
             text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
+            padding: 3rem 0;
+            background-color: var(--surface);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        @media (max-width: 768px) {
-            nav ul {
-                flex-direction: column;
-                text-align: center;
-                gap: 0.5rem;
-            }
-
-            header {
-                padding: 4rem 1rem;
-            }
-
-            section {
-                padding: 2rem 1rem;
-            }
+        #local-time {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
         }
+
+        /* Scroll-triggered Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
     </style>
 </head>
 <body>
-    <header>
-        <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Dipankar Saha</h1>
-        <p style="font-size: 1.2rem;">Aspiring Cybersecurity Professional</p>
+    <canvas id="dark-mode-canvas"></canvas>
+    <canvas id="light-mode-canvas"></canvas>
+
+    <header class="hero">
+        <h1>Dipankar Saha</h1>
+        <p>Aspiring Cybersecurity Professional</p>
     </header>
 
-    <nav>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <ul>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#education" class="nav-link">Education</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="mode-toggle" id="mode-toggle">
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
     </nav>
 
-    <section id="about" class="card">
-        <h2 style="color: var(--primary); margin-bottom: 1.5rem;">About Me</h2>
-        <p>Hey there! I’m a Master’s student in Information Technology, specializing in Cybersecurity—aka, the digital world’s equivalent of a superhero (but with fewer capes and more coffee).
-            <br>
-            <br>
-
-            I have a knack for system administration, network security, cloud computing, and web technologies. If there’s a security loophole, I’ll find it. If there’s a system issue, I’ll fix it. And if there’s free pizza at a tech conference, you bet I’ll be there.
-            <br>
-            <br>
-            
-            Cyber threats never sleep, but luckily, neither does my passion for protecting data and securing systems. I love breaking things—ethically, of course—just to put them back together in a stronger, safer way.
-            <br>
-            <br>
-            
-            I’m always on the lookout for exciting projects, innovative challenges, and like-minded tech enthusiasts who want to make the digital world a safer place. Let’s connect—just don’t send me weak passwords. (Seriously, "password123" is not okay.) 😁 </p>
-    </section>
-
-    <section id="education">
-        <h2 style="color: var(--secondary); margin-bottom: 2rem;">Education</h2>
-        <div class="card">
-            <h3>Master of Science in IT (Cyber Security)</h3>
-            <p>Maulana Abul Kalam Azad University of Technology<br>2024-2026</p>
-        </div>
-        
-    </section>
-
-    <section id="skills">
-        <h2 style="color: var(--primary); margin-bottom: 2rem;">Technical Skills</h2>
-        <div class="skills-grid">
-            <div class="skill-item">System Administration</div>
-            <div class="skill-item">Network Security</div>
-            <div class="skill-item">Cloud Technologies</div>
-            <div class="skill-item">Incident Response</div>
-            <div class="skill-item">Risk Management</div>
-            <div class="skill-item">Device Configuration</div>
-            <div class="skill-item">Troubleshooting</div>
-            <div class="skill-item">Firewalls</div>
-            <div class="skill-item">IP Addressing</div>
-            <div class="skill-item">Wireless Networks</div>
-        </div>
-        <br>
-        <br>
-
-        <h2 style="color: var(--primary); margin-bottom: 2rem;">Programming And Scripting</h2>
-        <div class="skills-grid">
-            <div class="skill-item">HTML</div>
-            <div class="skill-item">CSS</div>
-            <div class="skill-item">Java</div>
-            <div class="skill-item">C</div>
-            <div class="skill-item">Javascript</div>
-            <div class="skill-item">Python</div>
-        </div>
-        <br>
-        <br>
-
-        <h2 style="color: var(--primary); margin-bottom: 2rem;">Soft Skills</h2>
-        <div class="skills-grid">
-            <div class="skill-item">Quick Learner</div>
-            <div class="skill-item">Problem Solving</div>
-            <div class="skill-item">Time Management</div>
-            <div class="skill-item">Excellent Communication</div>
-            <div class="skill-item">Teamwork</div>
-        </div>
-    </section>
-
-    <section id="projects">
-        <h2 style="color: var(--secondary); margin-bottom: 2rem;">Projects</h2>
-        <div class="card project-card">
-            <h3> 🖼️ Image Steganography Tool | Technologies: Python, OpenCV, Cryptography, NumPy</h3>
-            <p>🔍 Project Overview: <br>
-Developed a secure data transmission system leveraging steganography and cryptography to conceal sensitive information within images. This project ensures confidentiality, integrity, and covert communication using advanced encryption and image processing techniques.<br>
-<br>
-🔑 Key Features & Technologies Used:<br>
-<br>
-✅ LSB Encoding (Least Significant Bit) – Embeds encrypted data within image pixels for seamless concealment.<br>
-✅ AES Encryption (Fernet) – Secures hidden messages with strong encryption algorithms.<br>
-✅ OpenCV & NumPy – Implements image processing techniques for embedding and retrieving data.<br>
-✅ Python & Cryptography – Core programming and security library for safe data transmission.<br>
-<br>
-💡 Impact & Learning Outcomes:<br>
-<br>
-🔹 Enhanced understanding of steganography, cryptographic algorithms, and secure communication.<br>
-🔹 Strengthened knowledge of image processing, data hiding techniques, and cybersecurity best practices.<br>
-🔹 Hands-on experience with real-world security applications in data privacy and risk mitigation.<br>
-<br>
-🔗 GitHub Repository: <a href="https://github.com/ezFaith/project_steganography.git" target="_blank"> View on Github</a></p>
-            <div class="skills-grid" style="margin-top: 1rem;">
-                <div class="skill-item" style="background: var(--secondary);">Cybersecurity</div>
-                <div class="skill-item" style="background: var(--secondary);">Ethical Hacking</div>
-                <div class="skill-item" style="background: var(--secondary);">Data Encryption</div>
-                <div class="skill-item" style="background: var(--secondary);">Steganography</div>
-                <div class="skill-item" style="background: var(--secondary);">OpenCV</div>
-                <div class="skill-item" style="background: var(--secondary);">Cryptography</div>
-                <div class="skill-item" style="background: var(--secondary);">Python</div>
-                <div class="skill-item" style="background: var(--secondary);">Information Security</div>
-                <div class="skill-item" style="background: var(--secondary);">Risk Management</div>
+    <main>
+        <section id="about" class="animate-on-scroll">
+            <div class="container">
+                <h2 class="section-heading">About Me</h2>
+                <div class="card">
+                    <div class="card-content">
+                        <p class="about-content">
+                            I am a Cybersecurity professional with a Master’s degree in Information Technology, driven by a passion for securing complex digital environments. My technical skill set spans across system administration, network security, and cloud technologies, with a hands-on approach to incident response and risk management. I have a proven track record of troubleshooting and configuring devices to build resilient systems. I am a proactive problem-solver and quick learner, continuously expanding my knowledge to stay ahead of evolving cyber threats. I am eager to collaborate on projects that demand innovative solutions and a high level of technical rigor.
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="card project-card">
-            <h3> 🧠 Mental Health Chatbot</h3>
-            <p>🔍 Project Overview: <br>
-Developed an AI-powered chatbot designed to provide mental health support and guidance. This chatbot enhances accessibility to mental well-being resources by offering interactive and empathetic conversations.
+        </section>
 
-<br>
-<br>
-🔑 Key Features & Technologies Used:<br>
-<br>
-✅ Conversational AI – Integrates an NLP-based chatbot to provide real-time responses.<br>
-✅ React.js & Vite – Designed a seamless, interactive UI with a modern, responsive interface.<br>
-✅ Node.js & Express – Backend API handling user messages and chatbot responses.<br>
-✅ REST API Integration – Communicates with a mental health chatbot backend for intelligent replies.<br>
-✅ Light/Dark Mode – User-friendly UI with a toggle for better accessibility.<br>
-✅ Responsive Design – Adaptable layout for both desktop and mobile users.<br>
-<br>
-💡 Impact & Learning Outcomes:<br>
-<br>
-🔹 Strengthened expertise in full-stack development (React.js, Node.js, Express, and API integration).<br>
-🔹 Enhanced knowledge of UI/UX design and creating engaging user interactions.<br>
-🔹 Gained hands-on experience in deploying web applications on Vercel & Render.<br>
-🔹 Developed an understanding of chatbot architecture and improving response efficiency.<br>
-<br>
-🔗 Live Demo: <a href="https://mental-health-chatbot-silk.vercel.app/" target="_blank">View Live Demo</a><br>
-            🔗 GitHub Repository: <a href="https://github.com/ezFaith/mental-health-chatbot" target="_black">View on GitHub</a></p>
-            <div class="skills-grid" style="margin-top: 1rem;">
-                <div class="skill-item" style="background: var(--secondary);">Full-Stack Development</div>
-                <div class="skill-item" style="background: var(--secondary);">React.js</div>
-                <div class="skill-item" style="background: var(--secondary);">JavaScript</div>
-                <div class="skill-item" style="background: var(--secondary);">Node.js</div>
-                <div class="skill-item" style="background: var(--secondary);">Express.js</div>
-                <div class="skill-item" style="background: var(--secondary);">REST API</div>
-                <div class="skill-item" style="background: var(--secondary);">Cybersecurity</div>
-                <div class="skill-item" style="background: var(--secondary);">UI/UX Design</div>
-                <div class="skill-item" style="background: var(--secondary);">Cloud Deployment (Vercel & Render)</div>
+        <section id="education" class="animate-on-scroll">
+            <div class="container">
+                <h2 class="section-heading">Education</h2>
+                <div class="card">
+                    <div class="card-content info-item">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div>
+                            <h3>Master of Science in IT (Cyber Security)</h3>
+                            <p>Maulana Abul Kalam Azad University of Technology<br>2024-2026</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="card project-card">
-            <h3> 💰 ATM Machine Simulation</h3>
-            <p>🔍 Project Overview: <br>
-Developed a Python-based ATM Machine Simulation replicating essential banking functionalities such as balance inquiry, cash withdrawal, deposits, PIN changes, and transaction history tracking. This project ensures a user-friendly and secure transaction experience, implementing authentication and financial data security best practices.<br>
-<br>
-🔑 Key Features & Technologies Used:<br>
-<br>
-✅ Balance Inquiry & Transaction History – Real-time account balance updates and detailed transaction logs.<br>
-✅ Secure Cash Withdrawal & Deposit – Ensures valid transactions with fund verification.<br>
-✅ PIN Change Functionality – Enhances account security with authentication and PIN validation.<br>
-✅ User Authentication – Limits incorrect PIN attempts to prevent unauthorized access.<br>
-✅ Python & Object-Oriented Programming (OOP) – Core development concepts for efficient structuring.<br>
-✅ Error Handling & Input Validation – Prevents incorrect inputs and enhances reliability.<br>
-<br>
-💡 Impact & Learning Outcomes:<br>
-<br>
-🔹 Strengthened knowledge of Python, OOP, and software development best practices.<br>
-🔹 Improved understanding of secure authentication, data validation, and transaction handling.<br>
-🔹 Hands-on experience in building financial applications and user-friendly banking simulations.<br>
-<br>
-🔗 GitHub Repository: <a href="https://github.com/ezFaith/ATM-Machine-Simulation.git" target="_blank">View on GitHub</a></p>
-            <div class="skills-grid" style="margin-top: 1rem;">
-                <div class="skill-item" style="background: var(--secondary);">Python</div>
-                <div class="skill-item" style="background: var(--secondary);">Object-Oriented Programming (OOP)</div>
-                <div class="skill-item" style="background: var(--secondary);">File Handling</div>
-                <div class="skill-item" style="background: var(--secondary);">Error Handling</div>
-                <div class="skill-item" style="background: var(--secondary);">User Input Validation</div>
-            </div>
-        </div>
-        <div class="card project-card">
-            <h3>🌐 Home-Lab & Workplace Network Setup | Technologies: Security, Networking, Device Configuration</h3>
-            <p>• Designed and implemented a secure workplace network, configuring routers, switches, firewalls, VLANs, and QoS for optimal 
-                performance and security.<br>
-                 • Applied IP addressing, wireless networks, and troubleshooting to enhance connectivity and reliability and Currently Building 
-                and configuring a personal cybersecurity home lab to enhance practical skills in network and system security.</p>
-            <div class="skills-grid" style="margin-top: 1rem;">
-                <div class="skill-item" style="background: var(--secondary);">Networking</div>
-                <div class="skill-item" style="background: var(--secondary);">Cybersecurity</div>
-                <div class="skill-item" style="background: var(--secondary);">System Admin</div>
-            </div>
-        </div>
-        
-        <div class="card project-card">
-            <h3>Portfolio Website</h3>
-            <p>Designed and developed a responsive portfolio to showcase personal projects and web development 
-                skills with a clean, user-friendly UI</p>
-            <div class="skills-grid" style="margin-top: 1rem;">
-                <div class="skill-item" style="background: var(--secondary);">HTML5</div>
-                <div class="skill-item" style="background: var(--secondary);">CSS3</div>
-            </div>
-        </div>
+        </section>
 
-        <div class="card project-card">
-            <h3>Top 10 Cultures and Heritages of India</h3>
-            <p> Created an interactive website highlighting India’s rich cultures and heritage, 
-                optimizing layout for an engaging user experience.</p>
-            <div class="skills-grid" style="margin-top: 1rem;">
-                <div class="skill-item" style="background: var(--secondary);">HTML5</div>
-                <div class="skill-item" style="background: var(--secondary);">CSS3</div>
+        <section id="skills" class="animate-on-scroll">
+            <div class="container">
+                <h2 class="section-heading">Technical Skills</h2>
+                <div class="card">
+                    <div class="card-content">
+                        <h3 style="color: var(--text-primary); margin-bottom: 1.5rem;">Security Operations & Analysis</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">SIEM</div>
+                            <div class="skill-item">Log Analysis & Parsing</div>
+                            <div class="skill-item">Threat Detection</div>
+                            <div class="skill-item">Incident Handling</div>
+                            <div class="skill-item">Alert Triage</div>
+                            <div class="skill-item">Threat Intelligence</div>
+                            <div class="skill-item">Threat Hunting</div>
+                            <div class="skill-item">Malware Analysis</div>
+                            <div class="skill-item">Vulnerability Analysis & Scanning</div>
+                        </div>
+                        
+                        <h3 style="color: var(--text-primary); margin-top: 3rem; margin-bottom: 1.5rem;">Tools & Platforms</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">Splunk</div>
+                            <div class="skill-item">ELK Stack (Elasticsearch, Logstash, Kibana)</div>
+                            <div class="skill-item">Wireshark</div>
+                            <div class="skill-item">Nmap</div>
+                            <div class="skill-item">Nessus</div>
+                            <div class="skill-item">Metasploit</div>
+                            <div class="skill-item">Firewalls</div>
+                        </div>
+                        
+                        <h3 style="color: var(--text-primary); margin-top: 3rem; margin-bottom: 1.5rem;">System & Scripting</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">Python</div>
+                            <div class="skill-item">PowerShell</div>
+                            <div class="skill-item">Bash Scripting</div>
+                            <div class="skill-item">Windows Server</div>
+                            <div class="skill-item">Linux (Ubuntu/Kali)</div>
+                            <div class="skill-item">System Administration</div>
+                            <div class="skill-item">Network Security</div>
+                        </div>
+                        
+                        <h3 style="color: var(--text-primary); margin-top: 3rem; margin-bottom: 1.5rem;">Soft Skills</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">Analytical Thinking</div>
+                            <div class="skill-item">Critical Thinking</div>
+                            <div class="skill-item">Problem Solving</div>
+                            <div class="skill-item">Root Cause Analysis</div>
+                            <div class="skill-item">Quick Learner</div>
+                            <div class="skill-item">Excellent Communication</div>
+                            <div class="skill-item">Teamwork</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="card project-card">
-            <h3>Petrix E-commerce Landing Page</h3>
-            <p>Developed a functional e-commerce landing page for the Petrix robotic pet product, 
-                focusing on branding, user engagement, and UI/UX design.</p>
-            <div class="skills-grid" style="margin-top: 1rem;">
-                <div class="skill-item" style="background: var(--secondary);">HTML5</div>
-                <div class="skill-item" style="background: var(--secondary);">CSS3</div>
-                <div class="skill-item" style="background: var(--secondary);">Javascript</div>
-            </div>
-        </div>
-        
-        
-    </section>
+        <section id="projects" class="animate-on-scroll">
+            <div class="container">
+                <h2 class="section-heading">Projects</h2>
+                <div class="card project-card">
+                    <div class="card-content">
+                        <h3>🖼️ Image Steganography Tool</h3>
+                        <p><strong>Technologies:</strong> Python, OpenCV, Cryptography, NumPy</p>
+                        <p>Developed a secure data transmission system leveraging steganography and cryptography to conceal sensitive information within images. This project ensures confidentiality, integrity, and covert communication using advanced encryption and image processing techniques.</p>
+                        <div class="project-links">
+                            <strong><a href="https://github.com/ezFaith/project_steganography.git" target="_blank">View on Github <i class="fas fa-external-link-alt"></i></a></strong>
+                        </div>
+                        <div class="skills-grid project-skills">
+                            <div class="skill-item">Cybersecurity</div>
+                            <div class="skill-item">Data Encryption</div>
+                            <div class="skill-item">Steganography</div>
+                            <div class="skill-item">Python</div>
+                        </div>
+                    </div>
+                </div>
 
-    <section id="contact">
-        <h2 style="color: var(--primary); margin-bottom: 2rem;">Contact Me</h2>
-        <div class="contact-info">
-            <div class="contact-item">
-                <i class="fas fa-envelope fa-lg"></i>
-                <a href="mailto:dsaha0427@gmail.com">dsaha0427@gmail.com</a>
-            </div>
-            <div class="contact-item">
-                <i class="fab fa-linkedin fa-lg"></i>
-                <a href="https://linkedin.com/in/dipankarsaha2001" target="_blank">LinkedIn Profile</a>
-            </div>
-            <div class="contact-item">
-                <i class="fab fa-github fa-lg"></i>
+                <div class="card project-card">
+                    <div class="card-content">
+                        <h3>🧠 Mental Health Chatbot</h3>
+                        <p><strong>Technologies:</strong> React.js, Vite, Node.js, Express, REST API</p>
+                        <p>Developed an AI-powered chatbot designed to provide mental health support and guidance. This chatbot enhances accessibility to mental well-being resources by offering interactive and empathetic conversations.</p>
+                        <div class="project-links">
+                            <strong><a href="https://mental-health-chatbot-silk.vercel.app/" target="_blank">Live Demo <i class="fas fa-external-link-alt"></i></a></strong>
+                            <strong><a href="https://github.com/ezFaith/mental-health-chatbot" target="_blank">View on GitHub <i class="fas fa-external-link-alt"></i></a></strong>
+                        </div>
+                        <div class="skills-grid project-skills">
+                            <div class="skill-item">Full-Stack Development</div>
+                            <div class="skill-item">React.js</div>
+                            <div class="skill-item">Node.js</div>
+                            <div class="skill-item">REST API</div>
+                        </div>
+                    </div>
+                </div>
 
-                <a href="https://github.com/ezFaith" target="_blank">Github</a>
+                <div class="card project-card">
+                    <div class="card-content">
+                        <h3>💰 ATM Machine Simulation</h3>
+                        <p><strong>Technologies:</strong> Python, OOP, File Handling</p>
+                        <p>Developed a Python-based ATM Machine Simulation replicating essential banking functionalities such as balance inquiry, cash withdrawal, deposits, and PIN changes. The project implements authentication and financial data security best practices.</p>
+                        <div class="project-links">
+                            <strong><a href="https://github.com/ezFaith/ATM-Machine-Simulation.git" target="_blank">View on GitHub <i class="fas fa-external-link-alt"></i></a></strong>
+                        </div>
+                        <div class="skills-grid project-skills">
+                            <div class="skill-item">Python</div>
+                            <div class="skill-item">OOP</div>
+                            <div class="skill-item">Data Validation</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card project-card">
+                    <div class="card-content">
+                        <h3>🌐 Home-Lab & Workplace Network Setup</h3>
+                        <p><strong>Technologies:</strong> Security, Networking, Device Configuration</p>
+                        <p>Designed and implemented a secure workplace network, configuring routers, switches, firewalls, VLANs, and QoS for optimal performance and security. Applied IP addressing, wireless networks, and troubleshooting to enhance connectivity and reliability. Currently building and configuring a personal cybersecurity home lab to enhance practical skills in network and system security.</p>
+                        <div class="skills-grid project-skills">
+                            <div class="skill-item">Networking</div>
+                            <div class="skill-item">Cybersecurity</div>
+                            <div class="skill-item">System Admin</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card project-card">
+                    <div class="card-content">
+                        <h3>Portfolio Website</h3>
+                        <p>Designed and developed a responsive portfolio to showcase personal projects and web development skills with a clean, user-friendly UI.</p>
+                        <div class="skills-grid project-skills">
+                            <div class="skill-item">HTML5</div>
+                            <div class="skill-item">CSS3</div>
+                            <div class="skill-item">Javascript</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card project-card">
+                    <div class="card-content">
+                        <h3>Top 10 Cultures and Heritages of India</h3>
+                        <p>Created an interactive website highlighting India’s rich cultures and heritage, optimizing layout for an engaging user experience.</p>
+                        <div class="skills-grid project-skills">
+                            <div class="skill-item">HTML5</div>
+                            <div class="skill-item">CSS3</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card project-card">
+                    <div class="card-content">
+                        <h3>Petrix E-commerce Landing Page</h3>
+                        <p>Developed a functional e-commerce landing page for the Petrix robotic pet product, focusing on branding, user engagement, and UI/UX design.</p>
+                        <div class="skills-grid project-skills">
+                            <div class="skill-item">HTML5</div>
+                            <div class="skill-item">CSS3</div>
+                            <div class="skill-item">Javascript</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <section id="contact" class="animate-on-scroll">
+            <div class="container">
+                <h2 class="section-heading">Contact Me</h2>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:dsaha0427@gmail.com">dsaha0427@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-linkedin"></i>
+                        <a href="https://linkedin.com/in/dipankarsaha2001" target="_blank">LinkedIn Profile</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-github"></i>
+                        <a href="https://github.com/ezFaith" target="_blank">Github</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <footer>
-        <p>&copy; 2024 Dipankar Saha. All rights reserved.</p>
-        <div style="margin-top: 1rem;">
-            <a href="#about" style="color: var(--accent); text-decoration: none;">Back to Top ↑</a>
+        <div class="container">
+            <p>&copy; 2024 Dipankar Saha. All rights reserved.</p>
+            <div id="local-time"></div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scroll links
+            document.querySelectorAll('.nav-link').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for scroll-triggered animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section, .card').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Dark/Light Mode Toggle & Canvas Management
+            const darkModeCanvas = document.getElementById('dark-mode-canvas');
+            const lightModeCanvas = document.getElementById('light-mode-canvas');
+            const modeToggle = document.getElementById('mode-toggle');
+
+            let threeRenderer, threeScene, threeCamera, particlesMesh;
+            let liquidCtx, liquidParticles = [], liquidAnimationId;
+
+            const startThreeJS = () => {
+                stopLiquidAnimation();
+                darkModeCanvas.style.opacity = 1;
+                lightModeCanvas.style.opacity = 0;
+
+                threeScene = new THREE.Scene();
+                threeCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                threeRenderer = new THREE.WebGLRenderer({ canvas: darkModeCanvas, antialias: true, alpha: true });
+                threeRenderer.setSize(window.innerWidth, window.innerHeight);
+                threeCamera.position.z = 50;
+
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particlesCount = 2000;
+                const posArray = new Float32Array(particlesCount * 3);
+                for (let i = 0; i < particlesCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 200;
+                }
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                
+                const particlesMaterial = new THREE.PointsMaterial({
+                    size: 0.1,
+                    color: 0x00d5ff,
+                    transparent: true,
+                    blending: THREE.AdditiveBlending,
+                    opacity: 0.8
+                });
+                particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+                threeScene.add(particlesMesh);
+
+                const animateThreeJS = () => {
+                    if (!threeRenderer) return;
+                    requestAnimationFrame(animateThreeJS);
+                    particlesMesh.rotation.y += 0.0005;
+                    particlesMesh.rotation.x += 0.0002;
+                    threeRenderer.render(threeScene, threeCamera);
+                };
+                animateThreeJS();
+            };
+
+            const stopThreeJS = () => {
+                if (threeRenderer) {
+                    threeRenderer.dispose();
+                    threeRenderer = null;
+                }
+            };
+            
+            const startLiquidAnimation = () => {
+                stopThreeJS();
+                darkModeCanvas.style.opacity = 0;
+                lightModeCanvas.style.opacity = 1;
+                
+                lightModeCanvas.width = window.innerWidth;
+                lightModeCanvas.height = window.innerHeight;
+                liquidCtx = lightModeCanvas.getContext('2d');
+                liquidParticles = [];
+
+                for (let i = 0; i < 50; i++) {
+                    liquidParticles.push({
+                        x: Math.random() * window.innerWidth,
+                        y: Math.random() * window.innerHeight,
+                        r: Math.random() * 50 + 20,
+                        vx: (Math.random() - 0.5) * 0.5,
+                        vy: (Math.random() - 0.5) * 0.5
+                    });
+                }
+                
+                const animateLiquid = () => {
+                    liquidAnimationId = requestAnimationFrame(animateLiquid);
+                    liquidCtx.clearRect(0, 0, lightModeCanvas.width, lightModeCanvas.height);
+                    
+                    const gradient = liquidCtx.createRadialGradient(
+                        lightModeCanvas.width / 2, lightModeCanvas.height / 2, 0,
+                        lightModeCanvas.width / 2, lightModeCanvas.height / 2, Math.max(lightModeCanvas.width, lightModeCanvas.height) / 1.5
+                    );
+                    gradient.addColorStop(0, '#EFF5D2'); // New color
+                    gradient.addColorStop(1, 'rgba(239, 245, 210, 0)'); // Fade to transparent
+                    liquidCtx.fillStyle = gradient;
+                    liquidCtx.fillRect(0, 0, lightModeCanvas.width, lightModeCanvas.height);
+
+                    liquidParticles.forEach(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        
+                        if (p.x < 0 || p.x > window.innerWidth) p.vx *= -1;
+                        if (p.y < 0 || p.y > window.innerHeight) p.vy *= -1;
+                        
+                        liquidCtx.beginPath();
+                        liquidCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                        liquidCtx.fillStyle = `rgba(239, 245, 210, ${0.3 + p.r / 100})`; // Particle color
+                        liquidCtx.fill();
+                    });
+                };
+                animateLiquid();
+            };
+
+            const stopLiquidAnimation = () => {
+                cancelAnimationFrame(liquidAnimationId);
+            };
+
+            const handleModeChange = (isLightMode) => {
+                if (isLightMode) {
+                    startLiquidAnimation();
+                } else {
+                    startThreeJS();
+                }
+            };
+
+            modeToggle.addEventListener('click', () => {
+                const isLightMode = document.body.classList.toggle('light-mode');
+                localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+                modeToggle.innerHTML = isLightMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+                handleModeChange(isLightMode);
+            });
+
+            // Set initial theme and start animation
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                modeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.body.classList.add('dark-mode');
+                modeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            handleModeChange(document.body.classList.contains('light-mode'));
+
+            // Dynamic Local Time for the user's location
+            const updateLocalTime = () => {
+                const now = new Date();
+                const options = { 
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+                    hour: '2-digit', minute: '2-digit', second: '2-digit',
+                    timeZoneName: 'short'
+                };
+                const formattedTime = now.toLocaleDateString(undefined, options);
+                document.getElementById('local-time').textContent = `Current local time: ${formattedTime}`;
+            };
+
+            updateLocalTime();
+            setInterval(updateLocalTime, 1000);
+
+            // Handle window resize for both canvases
+            window.addEventListener('resize', () => {
+                if (threeRenderer) {
+                    threeCamera.aspect = window.innerWidth / window.innerHeight;
+                    threeCamera.updateProjectionMatrix();
+                    threeRenderer.setSize(window.innerWidth, window.innerHeight);
+                }
+                if (liquidCtx) {
+                    lightModeCanvas.width = window.innerWidth;
+                    lightModeCanvas.height = window.innerHeight;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
