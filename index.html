@@ -444,7 +444,7 @@
                 <div class="card">
                     <div class="card-content">
                         <p class="about-content">
-                            I am a Cybersecurity professional with a Master’s degree in Information Technology, driven by a passion for securing complex digital environments. My technical skill set spans across system administration, network security, and cloud technologies, with a hands-on approach to incident response and risk management. I have a proven track record of troubleshooting and configuring devices to build resilient systems. I am a proactive problem-solver and quick learner, continuously expanding my knowledge to stay ahead of evolving cyber threats. I am eager to collaborate on projects that demand innovative solutions and a high level of technical rigor.
+                            I am a Cybersecurity professional with a Master's degree in Information Technology. My work is a relentless pursuit of a simple goal: to protect and fortify digital infrastructures. I specialize in the art of ethical hacking and proactive defense, meticulously analyzing systems to uncover vulnerabilities before they can be exploited. My expertise is built on a foundation of system administration, network security, and hands-on incident handling. I'm skilled in leveraging powerful tools like SIEM platforms and the ELK Stack to detect threats and provide actionable intelligence. More than just a list of skills, my approach is defined by a passion for continuous learning and a knack for solving complex puzzles. I am dedicated to building a safer digital world, one line of code and one security patch at a time.
                         </p>
                     </div>
                 </div>
@@ -766,8 +766,8 @@
                         lightModeCanvas.width / 2, lightModeCanvas.height / 2, 0,
                         lightModeCanvas.width / 2, lightModeCanvas.height / 2, Math.max(lightModeCanvas.width, lightModeCanvas.height) / 1.5
                     );
-                    gradient.addColorStop(0, '#EFF5D2'); // New color
-                    gradient.addColorStop(1, 'rgba(239, 245, 210, 0)'); // Fade to transparent
+                    gradient.addColorStop(0, '#EFF5D2');
+                    gradient.addColorStop(1, 'rgba(239, 245, 210, 0)');
                     liquidCtx.fillStyle = gradient;
                     liquidCtx.fillRect(0, 0, lightModeCanvas.width, lightModeCanvas.height);
 
@@ -780,7 +780,7 @@
                         
                         liquidCtx.beginPath();
                         liquidCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                        liquidCtx.fillStyle = `rgba(239, 245, 210, ${0.3 + p.r / 100})`; // Particle color
+                        liquidCtx.fillStyle = `rgba(239, 245, 210, ${0.3 + p.r / 100})`;
                         liquidCtx.fill();
                     });
                 };
